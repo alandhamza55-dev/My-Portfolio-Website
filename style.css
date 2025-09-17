@@ -1,0 +1,33 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+
+.hero {
+     height: 100vh;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+            blueviolet;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero .highlight {
+  color: #0d6efd; /* Bootstrap primary */
+}
+
+section {
+  padding: 60px 0;
+}
+
+.progress {
+  height: 20px;
+}
+
+footer {
+  font-size: 0.9rem;
+}
+

@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: skyblue;
+    color: #333;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+header .logo {
+    color: #ffb400;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+header nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+}
+header nav a:hover {
+    color: #ffb400;
+}
+
+/* Hero */
+.hero {
+    background: url('images/hero.jpg') no-repeat center/cover;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+.hero-text h1 {
+    font-size: 3rem;
+}
+.hero-text p {
+    font-size: 1.2rem;
+    margin: 15px 0;
+}
+.btn {
+    background: #ffb400;
+    padding: 10px 20px;
+    color: #222;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.btn:hover {
+    background: #e09b00;
+}
+
+/* Menu Section */
+.menu {
+    padding: 50px;
+    text-align: center;
+}
+.menu h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+.dish {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+.dish:hover {
+    transform: translateY(-5px);
+}
+.dish img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* About Section */
+.about {
+    padding: 50px;
+    background: #fff7e6;
+    text-align: center;
+}
+.about h2 {
+    margin-bottom: 15px;
+}
+
+/* Contact Section */
+.contact {
+    padding: 50px;
+    background: #f0f0f0;
+    text-align: center;
+}
+.contact form {
+    max-width: 500px;
+    margin: auto;
+}
+.contact input, .contact textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+.contact button {
+    background: #ffb400;
+    border: none;
+    padding: 10px 20px;
+    color: #222;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.contact button:hover {
+    background: #e09b00;
+}
+
+/* Footer */
+footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+}
