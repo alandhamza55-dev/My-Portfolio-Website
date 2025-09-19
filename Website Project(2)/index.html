@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Clothes Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Fashion<span>Hub</span></div>
+        <input type="text" id="search" placeholder="Search for clothes...">
+        <div class="cart-icon" onclick="toggleCart()">
+            🛒 <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <!-- Product Grid -->
+    <section class="product-grid" id="product-grid">
+        <!-- Example Product -->
+        <div class="product-card">
+            <img src="./T-shirt.webp" alt="T-Shirt">
+            <h3>Classic T-Shirt</h3>
+            <p>$20</p>
+            <button onclick="addToCart('Classic T-Shirt', 20)">Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+            <img src="./jeans.jpg" alt="Jeans">
+            <h3>Blue Jeans</h3>
+            <p>$35</p>
+            <button onclick="addToCart('Blue Jeans', 35)">Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+            <img src="./Jacket.jpg" alt="Jacket">
+            <h3>Leather Jacket</h3>
+            <p>$70</p>
+            <button onclick="addToCart('Leather Jacket', 70)">Add to Cart</button>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h2>Your Cart</h2>
+            <ul id="cart-items"></ul>
+            <p class="total">Total: $<span id="cart-total">0</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+:root{--bg:#f6f9ff;--ink:#0b1220}*{box-sizing:border-box}html,body{height:100%}
+body{background:var(--bg);color:var(--ink)}.navbar-brand img{height:36px}
+.hero{background:url('../images/hero.svg') center/cover no-repeat;min-height:70vh;display:flex;align-items:center;color:#fff}
+.hero .shadow-card{background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.3);backdrop-filter:blur(6px);border-radius:16px}
+.footer-dark{background:#0b1220;color:#cbd5e1}.footer-dark a{color:#93c5fd;text-decoration:none}.footer-dark a:hover{color:#fff;text-decoration:underline}
+.card.product-card img{height:180px;object-fit:cover}.badge-soft{background:#eef2ff;color:#334155}#toastArea{position:fixed;bottom:1rem;right:1rem;z-index:1080}

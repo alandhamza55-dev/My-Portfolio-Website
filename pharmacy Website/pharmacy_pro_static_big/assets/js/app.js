@@ -1,0 +1,35 @@
+
+const $=(s,sc=document)=>sc.querySelector(s);const $$=(s,sc=document)=>Array.from(sc.querySelectorAll(s));const money=n=>`$${n.toFixed(2)}`;
+const CART_KEY="pharmacare_cart_v2";const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||"[]");const setCart=i=>localStorage.setItem(CART_KEY,JSON.stringify(i));
+const cartCount=()=>getCart().reduce((s,i)=>s+i.qty,0);const addToCart=(id,qty=1)=>{const c=getCart();const f=c.find(i=>i.id===id);if(f)f.qty+=qty;else c.push({id,qty});setCart(c);updateCartBadge();toast("Added to cart")};
+const removeFromCart=id=>setCart(getCart().filter(i=>i.id!==id));const setQty=(id,qty)=>{const c=getCart().map(i=>i.id===id?{...i,qty:Math.max(1,qty)}:i);setCart(c)};const clearCart=()=>setCart([]);
+function updateCartBadge(){const b=document.getElementById("cartCount");if(b)b.textContent=cartCount()}
+function toast(msg){const area=document.getElementById("toastArea")||(()=>{const d=document.createElement("div");d.id="toastArea";document.body.appendChild(d);return d;})();
+  const item=document.createElement("div");item.className="toast align-items-center text-bg-primary border-0";item.role="alert";item.innerHTML=`<div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;area.appendChild(item);
+  new bootstrap.Toast(item,{delay:1200}).show();setTimeout(()=>item.remove(),1600)}
+document.addEventListener("DOMContentLoaded",()=>{const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYear();const page=document.body.getAttribute("data-page");
+  $$("#navLinks .nav-link").forEach(a=>{if(page&&a.getAttribute("href").includes(page))a.classList.add("active")});updateCartBadge();if(page==="home")initHome();if(page==="shop")initShop();if(page==="cart")initCart();if(page==="contact")initContact();});
+function initHome(){const w=document.getElementById("featuredWrap");const list=window.PRODUCTS.slice(0,8);w.innerHTML=list.map(p=>cardHTML(p)).join("");bindAddButtons(w)}
+function initShop(){const g=document.getElementById("productGrid");const cat=document.getElementById("categoryFilter");const sort=document.getElementById("sortSelect");const search=document.getElementById("searchInput");
+  cat.innerHTML=window.CATEGORIES.map(c=>`<option value="${c}">${c}</option>`).join("");
+  function render(){let list=[...window.PRODUCTS];if(cat.value&&cat.value!=="All")list=list.filter(p=>p.category===cat.value);
+    if(search.value.trim()){const q=search.value.toLowerCase();list=list.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q))}
+    if(sort.value==="price-asc")list.sort((a,b)=>a.price-b.price);else if(sort.value==="price-desc")list.sort((a,b)=>b.price-a.price);else list.sort((a,b)=>a.name.localeCompare(b.name));
+    g.innerHTML=list.map(p=>cardHTML(p,true)).join("");bindAddButtons(g);bindQuickView(g)}
+  cat.addEventListener("change",render);sort.addEventListener("change",render);search.addEventListener("input",render);render()}
+function bindAddButtons(sc=document){$$(".btn-add",sc).forEach(b=>b.addEventListener("click",e=>{const id=parseInt(e.currentTarget.dataset.id);addToCart(id,1)}))}
+function bindQuickView(sc=document){$$(".btn-quick",sc).forEach(b=>b.addEventListener("click",e=>{const id=parseInt(e.currentTarget.dataset.id);const p=window.PRODUCTS.find(x=>x.id===id);
+  const m=document.getElementById("quickModal");document.getElementById("qvImg").src=p.img;document.getElementById("qvTitle").textContent=p.name;document.getElementById("qvCat").textContent=p.category;document.getElementById("qvPrice").textContent=money(p.price);
+  new bootstrap.Modal(m).show()}))}
+function initCart(){const list=document.getElementById("cartList");const sub=document.getElementById("subtotal");const tot=document.getElementById("total");const clr=document.getElementById("clearCart");const chk=document.getElementById("checkoutBtn");
+  function render(){const items=getCart().map(i=>({...window.PRODUCTS.find(p=>p.id===i.id),qty:i.qty}));if(items.length===0){list.innerHTML=`<li class="list-group-item text-center text-muted">Your cart is empty.</li>`;sub.textContent=tot.textContent=money(0);return}
+    list.innerHTML=items.map(it=>`<li class="list-group-item d-flex align-items-center"><img src="${it.img}" width="56" height="56" class="rounded me-2" style="object-fit:cover"><div class="me-auto"><div class="fw-semibold">${it.name}</div><small class="text-muted">${it.category}</small></div><div class="me-3">${money(it.price)}</div><div class="input-group input-group-sm" style="width:120px"><button class="btn btn-outline-secondary btn-dec" data-id="${it.id}">-</button><input class="form-control text-center qty-input" value="${it.qty}" data-id="${it.id}"><button class="btn btn-outline-secondary btn-inc" data-id="${it.id}">+</button></div><button class="btn btn-sm btn-link text-danger ms-2 btn-remove" data-id="${it.id}"><i class="bi bi-x-lg"></i></button></li>`).join("");
+    const subtotal=items.reduce((s,it)=>s+it.qty*it.price,0);sub.textContent=money(subtotal);tot.textContent=money(subtotal);
+    $$(".btn-inc",list).forEach(b=>b.addEventListener("click",e=>{const id=parseInt(e.currentTarget.dataset.id);setQty(id,getQty(id)+1);render();updateCartBadge()}));
+    $$(".btn-dec",list).forEach(b=>b.addEventListener("click",e=>{const id=parseInt(e.currentTarget.dataset.id);setQty(id,Math.max(1,getQty(id)-1));render();updateCartBadge()}));
+    $$(".btn-remove",list).forEach(b=>b.addEventListener("click",e=>{const id=parseInt(e.currentTarget.dataset.id);removeFromCart(id);render();updateCartBadge()}));
+    $$(".qty-input",list).forEach(i=>i.addEventListener("change",e=>{const id=parseInt(e.currentTarget.dataset.id);const v=parseInt(e.currentTarget.value)||1;setQty(id,Math.max(1,v));render();updateCartBadge()}))}
+  function getQty(id){const it=getCart().find(i=>i.id===id);return it?it.qty:1}clr.addEventListener("click",()=>{clearCart();render();updateCartBadge()});
+  chk.addEventListener("click",()=>{if(getCart().length===0){alert("Your cart is empty.");return}alert("Order placed! (demo)");clearCart();render();updateCartBadge()});render()}
+function initContact(){const form=document.getElementById("contactForm");form&&form.addEventListener("submit",e=>{e.preventDefault();alert("Thanks! Your message has been sent.");form.reset()})}
+function cardHTML(p,desc=false){return `<div class="col-12 col-sm-6 col-lg-3"><div class="card product-card h-100 shadow-sm"><img src="${p.img}" class="card-img-top" alt="${p.name}"><div class="card-body d-flex flex-column"><span class="badge badge-soft align-self-start">${p.category}</span><h6 class="mt-2 mb-1">${p.name}</h6>${desc?`<p class="small text-muted">Trusted quality product for daily care.</p>`:``}<div class="d-flex justify-content-between align-items-center mt-auto"><span class="fw-bold">${money(p.price)}</span><div class="btn-group btn-group-sm"><button class="btn btn-outline-secondary btn-quick" data-id="${p.id}">Quick View</button><button class="btn btn-primary btn-add" data-id="${p.id}">Add</button></div></div></div></div></div>`}
