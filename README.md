@@ -1,8 +1,9 @@
 # Aland-Hamza-Portfolio-Website
 English:
 Note: Downloading and modifying this project is not allowed because this is a personal project and no one is allowed to download and modify and publish on their own, even Editing codes from the browser is prohibited...with respect
-عة رة بي:
 
+
+عة رة بي:
 ملحوظة: لا يسمح بتنزيل هذا المشروع وتعديله لأنه مشروع شخصي ولا يجوز لأي شخص تنزيله وتعديله ونشره بمفرده، حتى تعديل الأكواد من المتصفح ممنوع... مع احترامي
 
 كوردي:
