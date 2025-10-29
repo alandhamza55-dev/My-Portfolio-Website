@@ -180,22 +180,32 @@
   </section>
  
   <!-- Contact -->
+ <!-- Contact -->
+<form action="contact.php" method="POST">
   <section id="contact" class="bg-light py-5">
     <div class="container">
       <h2 class="text-center mb-4">Contact Me</h2>
       <form class="col-md-8 mx-auto">
         <div class="mb-3">
-          <input type="text" class="form-control" placeholder="Your Name" required>
+          <input type="text" class="form-control" name="name" placeholder="Your Name" required>
         </div>
         <div class="mb-3">
-          <input type="email" class="form-control" placeholder="Your Email" required>
+          <input type="email" class="form-control" name="email" placeholder="Your Email" required>
         </div>
         <div class="mb-3">
-          <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+          <textarea class="form-control" rows="5" name="message" placeholder="Your Message" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary w-100">Send Message</button>
-          <br>
-         <br>
+        <br><br>
+      </form>
+    </div>
+  </section>
+</form>
+
+
+
+
+
         <p>this is my phone number to call me on mobile</p>
 
       <p>+964 07701303441</p>
@@ -218,5 +228,15 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
 </body>
 </html>
+
+
+
+
+ 
