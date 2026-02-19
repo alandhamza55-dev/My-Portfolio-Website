@@ -1,0 +1,32 @@
+body {
+    background: #f1f3f6;
+    font-family: Arial, sans-serif;
+}
+
+.erp-sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: #1c1f26;
+}
+
+.erp-sidebar .nav-link {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.erp-sidebar .nav-link:hover,
+.erp-sidebar .active {
+    background: #343a40;
+    color: #fff;
+}
+
+.erp-content {
+    flex: 1;
+    background: #ffffff;
+}
+
+.stat-card {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
