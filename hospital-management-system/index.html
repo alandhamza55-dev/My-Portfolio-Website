@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShifaCare Hospital Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand">
+          <span class="brand-mark"><i class="bi bi-hospital"></i></span>
+          <div>
+            <strong>ShifaCare</strong>
+            <small>Clinical Operations</small>
+          </div>
+        </div>
+        <nav class="nav flex-column gap-1">
+          <a class="nav-link active" href="#dashboard"><i class="bi bi-speedometer2"></i><span data-i18n="nav.dashboard">Dashboard</span></a>
+          <a class="nav-link" href="#patients"><i class="bi bi-file-medical"></i><span data-i18n="nav.patients">Patients</span></a>
+          <a class="nav-link" href="#visits"><i class="bi bi-calendar2-check"></i><span data-i18n="nav.visits">Visits</span></a>
+          <a class="nav-link" href="#pharmacy"><i class="bi bi-capsule"></i><span data-i18n="nav.pharmacy">Pharmacy POS</span></a>
+          <a class="nav-link" href="#finance"><i class="bi bi-cash-coin"></i><span data-i18n="nav.finance">Finance</span></a>
+          <a class="nav-link" href="#purchases"><i class="bi bi-bag-plus"></i><span data-i18n="nav.purchases">Purchases</span></a>
+          <a class="nav-link" href="#reports"><i class="bi bi-bar-chart-line"></i><span data-i18n="nav.reports">Reports</span></a>
+          <a class="nav-link" href="#security"><i class="bi bi-shield-lock"></i><span data-i18n="nav.security">Authorities</span></a>
+          <a class="nav-link" href="#archive"><i class="bi bi-archive"></i><span data-i18n="nav.archive">Archive</span></a>
+          <a class="nav-link" href="#help"><i class="bi bi-translate"></i><span data-i18n="nav.help">Help</span></a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="icon-btn d-lg-none" id="menuToggle" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
+          <div>
+            <p class="eyebrow mb-1" data-i18n="topbar.system">Local browser system</p>
+            <h1 data-i18n="topbar.title">Hospital Management System</h1>
+          </div>
+          <div class="topbar-actions">
+            <div class="input-group search-box">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input class="form-control" id="globalSearch" type="search" data-i18n-placeholder="topbar.searchPlaceholder" placeholder="Search patients, visits, receipts, purchases...">
+            </div>
+            <select class="form-select language-select" id="languageSelect" data-i18n-aria="topbar.languageLabel" aria-label="Help language">
+              <option value="en">English</option>
+              <option value="ku">Kurdish</option>
+              <option value="ar">Arabic</option>
+            </select>
+          </div>
+        </header>
+
+        <section class="hero-band compact-hero" id="dashboard">
+          <div class="hero-copy">
+            <span class="status-pill"><i class="bi bi-database-check"></i><span data-i18n="hero.status">All data is entered by you and saved locally</span></span>
+            <h2 data-i18n="hero.title">Manage real clinic workflows from one responsive front-end.</h2>
+            <p data-i18n="hero.description">Register patients, schedule visits, sell medicines, track expenses, manage loans, calculate profit, control authorities, and preserve an audit archive with localStorage.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#patients"><i class="bi bi-person-plus"></i><span data-i18n="hero.addPatient">Add patient</span></a>
+              <button class="btn btn-light" id="exportData"><i class="bi bi-download"></i><span data-i18n="hero.export">Export JSON</span></button>
+              <button class="btn btn-outline-danger" id="clearData"><i class="bi bi-trash3"></i><span data-i18n="hero.clear">Clear local data</span></button>
+            </div>
+          </div>
+          <div class="hero-image" role="img" data-i18n-aria="hero.imageAria" aria-label="Modern hospital corridor"></div>
+        </section>
+
+        <section class="metric-grid" aria-label="Live metrics">
+          <article class="metric-card"><i class="bi bi-people"></i><span data-i18n="metrics.patients">Patients</span><strong id="metricPatients">0</strong><small class="trend neutral" data-i18n="metrics.registered">registered</small></article>
+          <article class="metric-card"><i class="bi bi-person-walking"></i><span data-i18n="metrics.visits">Open visits</span><strong id="metricVisits">0</strong><small class="trend up" data-i18n="metrics.queue">active queue</small></article>
+          <article class="metric-card"><i class="bi bi-cart-check"></i><span data-i18n="metrics.sales">POS sales</span><strong id="metricSales">0 IQD</strong><small class="trend up" id="metricSalesUsd">$0</small></article>
+          <article class="metric-card"><i class="bi bi-graph-up-arrow"></i><span data-i18n="metrics.profit">Net profit</span><strong id="metricProfit">0 IQD</strong><small class="trend neutral" data-i18n="metrics.profitHint">income - expenses</small></article>
+        </section>
+
+        <section class="module-grid">
+          <div class="panel wide" id="patients">
+            <div class="panel-header">
+              <div><p class="eyebrow" data-i18n="section.medicalRecords">Medical records</p><h2 data-i18n="section.patientRegistry">Patient registry</h2></div>
+              <span class="badge text-bg-primary" data-i18n="badge.customData">Custom data</span>
+            </div>
+            <form class="data-form" id="patientForm">
+              <input class="form-control" id="patientName" data-i18n-placeholder="form.fullName" placeholder="Full name" required>
+              <input class="form-control" id="patientPhone" data-i18n-placeholder="form.phone" placeholder="Phone number" required>
+              <input class="form-control" id="patientDob" type="date" required>
+              <select class="form-select" id="patientGender" required>
+                <option value="">Gender</option><option>Female</option><option>Male</option><option>Other</option>
+              </select>
+              <input class="form-control" id="patientBlood" data-i18n-placeholder="form.blood" placeholder="Blood group">
+              <input class="form-control" id="patientAllergy" data-i18n-placeholder="form.allergies" placeholder="Allergies">
+              <textarea class="form-control span-2" id="patientHistory" rows="3" data-i18n-placeholder="form.history" placeholder="Medical history, diagnosis, chronic disease, medication notes..." required></textarea>
+              <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i> <span data-i18n="button.savePatient">Save patient</span></button>
+            </form>
+            <div class="table-responsive mt-3">
+              <table class="table table-sm align-middle">
+                <thead><tr><th data-i18n="table.id">ID</th><th data-i18n="table.patient">Patient</th><th data-i18n="table.phone">Phone</th><th data-i18n="table.blood">Blood</th><th data-i18n="table.history">History</th><th></th></tr></thead>
+                <tbody id="patientsTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel" id="visits">
+            <div class="panel-header compact"><div><p class="eyebrow" data-i18n="section.arrivals">Arrivals</p><h2 data-i18n="section.visitQueue">Visit queue</h2></div></div>
+            <form class="data-form single" id="visitForm">
+              <select class="form-select" id="visitPatient" required><option value="">Select patient</option></select>
+              <input class="form-control" id="visitDepartment" data-i18n-placeholder="form.department" placeholder="Department" required>
+              <input class="form-control" id="visitDoctor" data-i18n-placeholder="form.doctor" placeholder="Doctor" required>
+              <select class="form-select" id="visitPriority"><option>Normal</option><option>Urgent</option><option>Research follow-up</option></select>
+              <textarea class="form-control" id="visitReason" rows="2" data-i18n-placeholder="form.visitReason" placeholder="Visit reason" required></textarea>
+              <button class="btn btn-primary" type="submit"><i class="bi bi-person-walking"></i> <span data-i18n="button.addVisit">Add visit</span></button>
+            </form>
+            <div class="queue-list mt-3" id="visitsList"></div>
+          </div>
+
+          <div class="panel" id="pharmacy">
+            <div class="panel-header compact"><div><p class="eyebrow" data-i18n="section.expressSales">Express sales</p><h2 data-i18n="section.pharmacyPos">Pharmacy POS</h2></div></div>
+            <form class="data-form single" id="saleForm">
+              <input class="form-control" id="saleItem" data-i18n-placeholder="form.medicine" placeholder="Medicine / goods" required>
+              <input class="form-control" id="saleQty" type="number" min="1" value="1" required>
+              <input class="form-control" id="salePrice" type="number" min="0" data-i18n-placeholder="form.unitPrice" placeholder="Unit price IQD" required>
+              <select class="form-select" id="salePatient"><option value="">Walk-in / no patient</option></select>
+              <button class="btn btn-dark" type="submit"><i class="bi bi-receipt"></i> <span data-i18n="button.saveSale">Save sale</span></button>
+            </form>
+            <div class="receipt-box"><div class="d-flex justify-content-between"><span data-i18n="section.currentPosTotal">Current POS total</span><strong id="posTotal">0 IQD</strong></div></div>
+            <div class="table-responsive mt-3">
+              <table class="table table-sm align-middle">
+                <thead><tr><th data-i18n="table.receipt">Receipt</th><th data-i18n="table.item">Item</th><th data-i18n="table.qty">Qty</th><th class="text-end" data-i18n="table.total">Total</th></tr></thead>
+                <tbody id="salesTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel wide" id="finance">
+            <div class="panel-header">
+              <div><p class="eyebrow" data-i18n="section.iqdUsd">IQD / USD</p><h2 data-i18n="section.financeLedger">Finance and loans ledger</h2></div>
+              <div class="currency-toggle btn-group" role="group" aria-label="Currency">
+                <button class="btn btn-outline-secondary active" type="button" data-currency="IQD">IQD</button>
+                <button class="btn btn-outline-secondary" type="button" data-currency="USD">USD</button>
+              </div>
+            </div>
+            <form class="data-form" id="financeForm">
+              <select class="form-select" id="financeType" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+                <option value="loan-in">Loan received</option>
+                <option value="loan-out">Loan given</option>
+              </select>
+              <input class="form-control" id="financeParty" data-i18n-placeholder="form.party" placeholder="Patient / supplier / account" required>
+              <input class="form-control" id="financeAmount" type="number" min="0" data-i18n-placeholder="form.amount" placeholder="Amount" required>
+              <select class="form-select" id="financeCurrency"><option>IQD</option><option>USD</option></select>
+              <input class="form-control span-2" id="financeNote" data-i18n-placeholder="form.description" placeholder="Description">
+              <button class="btn btn-primary" type="submit"><i class="bi bi-journal-plus"></i> <span data-i18n="button.postEntry">Post entry</span></button>
+            </form>
+            <div class="finance-stack mt-3">
+              <div><span data-i18n="finance.income">Total income</span><strong id="financeIncome">0 IQD</strong></div>
+              <div><span data-i18n="finance.expenses">Total expenses</span><strong id="financeExpenses">0 IQD</strong></div>
+              <div><span data-i18n="finance.loans">Loans balance</span><strong id="financeLoans">0 IQD</strong></div>
+            </div>
+          </div>
+
+          <div class="panel" id="purchases">
+            <div class="panel-header compact"><div><p class="eyebrow" data-i18n="section.clinicStock">Clinic stock</p><h2 data-i18n="section.purchaseRegister">Purchase register</h2></div></div>
+            <form class="data-form single" id="purchaseForm">
+              <input class="form-control" id="purchaseItem" data-i18n-placeholder="form.item" placeholder="Item name" required>
+              <input class="form-control" id="purchaseSupplier" data-i18n-placeholder="form.supplier" placeholder="Supplier" required>
+              <input class="form-control" id="purchaseQty" type="number" min="1" value="1" required>
+              <input class="form-control" id="purchaseCost" type="number" min="0" data-i18n-placeholder="form.totalCost" placeholder="Total cost IQD" required>
+              <button class="btn btn-primary" type="submit"><i class="bi bi-bag-plus"></i> <span data-i18n="button.savePurchase">Save purchase</span></button>
+            </form>
+            <div class="table-responsive mt-3">
+              <table class="table table-sm align-middle">
+                <thead><tr><th data-i18n="table.item">Item</th><th data-i18n="table.supplier">Supplier</th><th data-i18n="table.qty">Qty</th><th class="text-end" data-i18n="table.cost">Cost</th></tr></thead>
+                <tbody id="purchaseTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel wide" id="reports">
+            <div class="panel-header"><div><p class="eyebrow" data-i18n="section.reports">Automatic reports</p><h2 data-i18n="section.expensesIncomeProfit">Expenses, income, profit</h2></div></div>
+            <div class="report-layout">
+              <div class="bar-chart" id="reportBars" aria-label="Finance chart"></div>
+              <div class="report-kpis">
+                <div><small data-i18n="report.patients">Patient count</small><strong id="reportPatients">0</strong></div>
+                <div><small data-i18n="report.visits">Visit count</small><strong id="reportVisits">0</strong></div>
+                <div><small data-i18n="report.sales">Sales income</small><strong id="reportSales">0 IQD</strong></div>
+                <div><small data-i18n="report.purchases">Purchase expenses</small><strong id="reportPurchases">0 IQD</strong></div>
+                <div><small data-i18n="report.profit">Net result</small><strong id="reportProfit">0 IQD</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" id="security">
+            <div class="panel-header compact"><div><p class="eyebrow" data-i18n="section.security">Security</p><h2 data-i18n="section.authorities">Authorities</h2></div><i class="bi bi-fingerprint archive-icon"></i></div>
+            <div class="role-list">
+              <label><input type="checkbox" data-role="doctor" checked> Doctor: patient history and visits</label>
+              <label><input type="checkbox" data-role="cashier" checked> Cashier: POS receipts</label>
+              <label><input type="checkbox" data-role="finance" checked> Finance: ledger and loans</label>
+              <label><input type="checkbox" data-role="admin" checked> Admin: reports and export</label>
+            </div>
+          </div>
+
+          <div class="panel" id="archive">
+            <div class="panel-header compact"><div><p class="eyebrow" data-i18n="section.archive">Permanent archive</p><h2 data-i18n="section.auditTrail">Audit trail</h2></div><i class="bi bi-database-lock archive-icon"></i></div>
+            <div class="audit-feed" id="auditFeed"></div>
+          </div>
+
+          <div class="panel" id="help">
+            <div class="panel-header compact"><div><p class="eyebrow" data-i18n="section.help">Help</p><h2 data-i18n="section.helpTitle">Kurdish, Arabic, English</h2></div><i class="bi bi-headset archive-icon"></i></div>
+            <div class="help-box" id="helpBox"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="appToast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+        <div class="toast-body"><i class="bi bi-check-circle-fill text-success"></i> <span id="toastText">Saved.</span></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
