@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    ">
+    <title>فرۆشگای من | سیستەمی فرۆشتن</title>
+    <link rel="stylesheet" href="assets/app.css">
+</head>
+<body class="pos-page demo-locked">
+    <main id="demoLogin" class="demo-login login-card">
+        <a class="brand" href="#"><span class="brand-mark">▦</span><span><strong>فرۆشگای من</strong><small>دیمۆی سیستەمی فرۆشتن</small></span></a>
+        <h1>بەخێربێیتەوە</h1><p class="login-intro">هەژماری دیمۆ هەڵبژێرە بۆ بەکارهێنانی سیستەمەکە.</p>
+        <form id="demoLoginForm"><label class="login-label" for="demoUser">ناوی بەکارهێنەر</label><input id="demoUser" class="login-input" required value="admin"><label class="login-label" for="demoPass">وشەی نهێنی</label><input id="demoPass" type="password" class="login-input" required value="admin123"><button class="button button-primary checkout-button login-button" type="submit">چوونەژوورەوە</button></form>
+        <div class="demo-accounts"><button type="button" data-user="admin" data-pass="admin123">بەڕێوەبەر</button><button type="button" data-user="cashier" data-pass="cash123">فرۆشیار</button></div><p class="demo-hint">بەڕێوەبەر: admin / admin123<br>فرۆشیار: cashier / cash123</p>
+    </main>
+    <header class="topbar">
+        <a class="brand" href="index.php" aria-label="گەڕانەوە بۆ فرۆشتن">
+            <span class="brand-mark" aria-hidden="true">▦</span>
+            <span><strong>فرۆشگای من</strong><small>سیستەمی فرۆشتن</small></span>
+        </a>
+        <div class="topbar-actions">
+            <span class="user-chip"><span class="status-dot"></span>admin</span>
+            <a id="adminLink" class="button button-quiet" href="admin.html">بەڕێوەبردن</a>
+            <button id="logoutButton" class="button button-quiet" type="button">چوونەدەرەوە</button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <section class="catalog-panel" aria-labelledby="catalog-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">کۆگا و کاڵاکان</p>
+                    <h1 id="catalog-title">کاڵاکان</h1>
+                </div>
+                <span id="productCount" class="count-chip">٠ کاڵا</span>
+            </div>
+            <label class="search-box" for="productSearch">
+                <span aria-hidden="true">⌕</span>
+                <input id="productSearch" type="search" autocomplete="off" placeholder="گەڕان بە ناو یان بارکۆد..." aria-label="گەڕان بە ناوی کاڵا یان بارکۆد">
+                <kbd>F2</kbd>
+            </label>
+            <div id="catalogMessage" class="inline-message" role="status" aria-live="polite"></div>
+            <div id="products" class="product-grid" aria-live="polite"></div>
+        </section>
+
+        <aside class="checkout-panel" aria-labelledby="cart-title">
+            <div class="checkout-heading">
+                <div>
+                    <p class="eyebrow">مامەڵەی نوێ</p>
+                    <h2 id="cart-title">سەبەتەی کڕین</h2>
+                </div>
+                <button id="clearCart" class="icon-button" type="button" aria-label="پاککردنەوەی سەبەتە" title="پاککردنەوەی سەبەتە">پاککردنەوە</button>
+            </div>
+            <label class="barcode-box" for="barcodeInput">
+                <span aria-hidden="true">▤</span>
+                <input id="barcodeInput" type="text" inputmode="numeric" autocomplete="off" placeholder="بارکۆد بخوێنەوە یان بنووسە">
+                <kbd>Enter</kbd>
+            </label>
+
+            <div class="cart-table-wrap">
+                <table class="cart-table">
+                    <thead><tr><th>کاڵا</th><th>ژمارە</th><th>کۆ</th><th><span class="sr-only">کردار</span></th></tr></thead>
+                    <tbody id="cartBody"></tbody>
+                </table>
+                <div id="emptyCart" class="empty-cart">
+                    <span class="empty-cart-icon" aria-hidden="true">🛒</span>
+                    <strong>سەبەتەکە بەتاڵە</strong>
+                    <span>کاڵا هەڵبژێرە یان بارکۆدی بخوێنەوە</span>
+                </div>
+            </div>
+
+            <div class="totals">
+                <div><span>کۆی کاڵاکان</span><strong><span id="subtotal">0.00</span> $</strong></div>
+                <div><span>باج</span><strong><span id="vat">0.00</span> $</strong></div>
+                <div class="grand-total"><span>کۆی گشتی</span><strong><span id="grand">0.00</span> $</strong></div>
+                <label class="cash-field" for="cashReceived">
+                    <span>پارەی وەرگیراو ($)</span>
+                    <input id="cashReceived" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+                </label>
+                <div class="change-row"><span>ماوەی گەڕاندنەوە</span><strong><span id="changeDue">0.00</span> $</strong></div>
+            </div>
+            <button id="checkoutButton" class="button button-primary checkout-button" type="button" disabled>تەواوکردنی فرۆشتن</button>
+            <p class="shortcut-hint">F2 بۆ گەڕان · بارکۆد + Enter بۆ زیادکردن</p>
+        </aside>
+    </main>
+
+    <section id="receipt" class="receipt" aria-label="پسووڵە">
+        <div class="receipt-brand">فرۆشگای من</div>
+        <p class="receipt-caption">پسووڵەی فرۆشتن</p>
+        <p>ژمارەی مامەڵە: <strong id="receiptSaleId"></strong></p>
+        <p>بەکارهێنەر: <strong id="receiptUser">admin</strong></p>
+        <p>بەروار: <strong id="receiptDate"></strong></p>
+        <table><thead><tr><th>کاڵا</th><th>ژ.</th><th>نرخ</th><th>کۆ</th></tr></thead><tbody id="receiptItems"></tbody></table>
+        <p>کۆی کاڵاکان: <strong><span id="receiptSubtotal"></span> $</strong></p>
+        <p>باج: <strong><span id="receiptVat"></span> $</strong></p>
+        <p class="receipt-total">کۆی گشتی: <strong><span id="receiptGrand"></span> $</strong></p>
+        <p>پارەی وەرگیراو: <strong><span id="receiptCash"></span> $</strong></p>
+        <p>گەڕاندنەوە: <strong><span id="receiptChange"></span> $</strong></p>
+        <p class="receipt-thanks">سوپاس بۆ کڕینەکەتان</p>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="assets/demo.js" defer></script>
+    <script src="assets/app.js" defer></script>
+</body>
+</html>
+
+
+
